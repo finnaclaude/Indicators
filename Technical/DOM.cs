@@ -480,6 +480,9 @@ public class DOM : Indicator
 
 					foreach (var priceDepth in _mDepth.Values.Where(x => x.DataType is MarketDataType.Ask))
 					{
+						if(priceDepth.Volume is 0)
+							continue;
+
 						int y;
 
 						if (PriceLevelsHeight == 0)
@@ -562,7 +565,10 @@ public class DOM : Indicator
 
 					foreach (var priceDepth in _mDepth.Values.Where(x => x.DataType is MarketDataType.Bid))
 					{
-						int y;
+						if (priceDepth.Volume is 0)
+							continue;
+
+                        int y;
 
 						if (PriceLevelsHeight == 0)
 						{
