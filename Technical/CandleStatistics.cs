@@ -97,9 +97,11 @@ public class CandleStatistics : Indicator
 
 	private void DrawLabels(RenderContext context)
 	{
-		var rowHeight = context.MeasureString("0", FontSetting.RenderObject).Height;
+		var shift = 2;
+        var shiftBetweenStr = (int)(FontSetting.RenderObject.Size / 100 * 20);
+		var rowHeight = context.MeasureString("0", FontSetting.RenderObject).Height + shiftBetweenStr;
 
-		for (var bar = FirstVisibleBarNumber; bar <= LastVisibleBarNumber; bar++)
+        for (var bar = FirstVisibleBarNumber; bar <= LastVisibleBarNumber; bar++)
 		{
 			var candle = GetCandle(bar);
 			var delta = candle.Delta;
@@ -120,10 +122,7 @@ public class CandleStatistics : Indicator
 				else
 					durationStr = duration.ToString(@"ss");
 			}
-
-			var shiftBetweenStr = (int)(FontSetting.RenderObject.Size / 100 * 20);
-			var shift = 2;
-
+			
 			var volumeSize = new Size();
 			var deltaSize = new Size();
 			var ticksSize = new Size();
@@ -156,7 +155,7 @@ public class CandleStatistics : Indicator
 			}
 
 			var h = volumeSize.Height + deltaSize.Height + ticksSize.Height + durationSize.Height + shift * 2 + shiftBetweenStr;
-			var y = (int)GetStartY(candle, h);
+			var y = (int)GetStartY(candle, h) + shift;
 
 			maxWidth += shift * 4;
 			maxWidth = GetTrueWidth(maxWidth);
@@ -167,32 +166,31 @@ public class CandleStatistics : Indicator
 
 			if (!HideBackGround)
 				context.DrawFillRectangle(_bgPen.RenderObject, _bgBrush.RenderObject.StartColor, rectangle);
-
+			
 			if (ShowVolume)
 			{
-				y += shift;
 				var rec = new Rectangle(x, y, maxWidth, volumeSize.Height);
 				context.DrawString(volumeStr, FontSetting.RenderObject, VolumeColor, rec, _format);
-			}
+				y += rowHeight;
+            }
 
 			if (ShowDelta)
 			{
-				y += rowHeight + shiftBetweenStr;
 				var rec = new Rectangle(x, y, maxWidth, deltaSize.Height);
 				var color = delta < 0 ? NegativeDeltaColor : PositiveDeltaColor;
 				context.DrawString(deltaStr, FontSetting.RenderObject, color, rec, _format);
-			}
+				y += rowHeight;
+            }
 
 			if (ShowTrades)
 			{
-				y += rowHeight + shiftBetweenStr;
 				var rec = new Rectangle(x, y, maxWidth, ticksSize.Height);
 				context.DrawString(ticksStr, FontSetting.RenderObject, TradesColor, rec, _format);
+				y += rowHeight;
 			}
 
 			if (ShowDuration)
 			{
-				y += rowHeight + shiftBetweenStr;
 				var rec = new Rectangle(x, y, maxWidth, durationSize.Height);
 				context.DrawString(durationStr, FontSetting.RenderObject, DurationColor, rec, _format);
 			}
