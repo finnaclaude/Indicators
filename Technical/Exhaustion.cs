@@ -12,7 +12,6 @@ using Utils.Common.Collections;
 
 using FilterColor2 = ATAS.Indicators.FilterColor;
 
-[FeatureId("NotReady")]
 [Category(IndicatorCategories.ClustersProfilesLevels)]
 [DisplayName("Exhaustion")]
 public class Exhaustion : Indicator
