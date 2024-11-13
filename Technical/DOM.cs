@@ -535,7 +535,7 @@ public class DOM : Indicator
 
 							if (_font.Size > 4)
 							{
-								var renderText = chartInfo.TryGetMinimizedVolumeString(priceDepth.Volume);
+								var renderText = chartInfo.TryGetMinimizedVolumeString(priceDepth.Volume, priceDepth.Price);
 								var textWidth = context.MeasureString(renderText, _font).Width + 5;
 
 								var textRect = RightToLeft
@@ -615,7 +615,7 @@ public class DOM : Indicator
 						{
 							if (_font.Size > 4)
 							{
-								var renderText = chartInfo.TryGetMinimizedVolumeString(priceDepth.Volume);
+								var renderText = chartInfo.TryGetMinimizedVolumeString(priceDepth.Volume, priceDepth.Price);
 								var textWidth = context.MeasureString(renderText, _font).Width + 5;
 
 								var textRect = RightToLeft
@@ -938,7 +938,7 @@ public class DOM : Indicator
 		var form = RightToLeft ? _stringRightFormat : _stringLeftFormat;
 
 		var y = ChartInfo.GetYByPrice(price);
-		var renderText = ChartInfo.TryGetMinimizedVolumeString(volume);
+		var renderText = ChartInfo.TryGetMinimizedVolumeString(volume,price);
 		var textWidth = context.MeasureString(renderText, _font).Width + 5;
 
 		var textRect = new Rectangle(new Point(ChartInfo.Region.Width - textWidth, y),
