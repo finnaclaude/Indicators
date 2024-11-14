@@ -28,6 +28,8 @@ public class DeltaTurnaround : Indicator
 		DescriptionKey = nameof(Strings.PositiveDeltaSettingsDescription)
 	};
 
+	private int _lastBar;
+
 	#endregion
 
 	#region Properties
@@ -35,6 +37,10 @@ public class DeltaTurnaround : Indicator
 	[Display(ResourceType = typeof(Strings), Name = nameof(Strings.UseAlert), GroupName = nameof(Strings.UpAlert),
 		Description = nameof(Strings.UpAlertFileFilterDescription), Order = 300)]
 	public bool UseAlerts { get; set; }
+
+	[Display(ResourceType = typeof(Strings), Name = nameof(Strings.AlertNewCandle), GroupName = nameof(Strings.UpAlert),
+		Order = 300)]
+	public bool AlertOnNewCandle { get; set; }
 
 	[Display(ResourceType = typeof(Strings), Name = nameof(Strings.AlertFile), GroupName = nameof(Strings.Alerts),
 		Description = nameof(Strings.AlertFileDescription), Order = 320)]
@@ -81,9 +87,18 @@ public class DeltaTurnaround : Indicator
 		var prevCandle = GetCandle(bar - 1);
 		var prev2Candle = GetCandle(bar - 2);
 
-		var checkAlerts = bar == CurrentBar - 1 && UseAlerts;
 
-		if (prevCandle.Close - prevCandle.Open > 0
+		if (AlertOnNewCandle && _lastBar != bar && bar == CurrentBar - 1)
+		{
+			if (AlertOnNewCandle && (_posSeries[bar - 1] != 0 || _negSeries[bar - 1] != 0))
+				AddAlert(AlertFile, InstrumentInfo.Instrument, "Delta turnaround down signal.", AlertBGColor, AlertForeColor);
+		}
+
+		_lastBar = bar;
+
+		var checkAlerts = bar == CurrentBar - 1 && UseAlerts && !AlertOnNewCandle;
+
+        if (prevCandle.Close - prevCandle.Open > 0
 		    && prev2Candle.Close - prev2Candle.Open > 0
 		    && candle.Close - candle.Open < 0
 		    && candle.High >= prevCandle.High
