@@ -251,7 +251,7 @@ public class MboGridController
 			{
 				lock (_level2Data)
 				{
-					if (_level2Data.Count > 0)
+					if (!_level2Data.IsEmpty)
 					{
 						if (_level2Data.TryGetValue(price, out var value))
 						{
@@ -324,7 +324,7 @@ public class MboGridController
 			{
 				lock (_level2Data)
 				{
-					if (_level2Data.Count > 0)
+					if (!_level2Data.IsEmpty)
 					{
 						if (_level2Data.TryGetValue(price, out var value))
 						{
