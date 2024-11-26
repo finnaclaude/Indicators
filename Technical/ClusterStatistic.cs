@@ -1193,7 +1193,7 @@ public class ClusterStatistic : Indicator
 			DataType.Bid => GetRate(candle.Bid, maxValues.MaxBid),
 			DataType.Delta => GetRate(Math.Abs(candle.Delta), maxValues.MaxDelta),
 			DataType.DeltaVolume => candle.Volume != 0 ? GetRate(Math.Abs(candle.Delta * 100.0m / candle.Volume), maxValues.MaxDeltaPerVolume) : 0,
-			DataType.SessionDelta => GetRate(_deltaPerVol[bar], maxValues.MaxSessionDelta),
+			DataType.SessionDelta => GetRate(Math.Abs(_cDelta[bar]), maxValues.MaxSessionDelta),
 			DataType.SessionDeltaVolume => GetRate(Math.Abs(_cDeltaPerVol[bar]), maxValues.MaxSessionDeltaPerVolume),
 			DataType.MaxDelta => GetRate(Math.Abs(candle.MaxDelta), maxValues.MaxMaxDelta),
 			DataType.MinDelta => GetRate(Math.Abs(candle.MinDelta), maxValues.MaxMinDelta),

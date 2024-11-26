@@ -194,6 +194,11 @@
 
 		#region Protected methods
 
+		protected override void OnRecalculate()
+		{
+			_paintBars.Clear();
+		}
+
 		protected override void OnCalculate(int bar, decimal value)
 		{
 			var candle = GetCandle(bar);
@@ -416,6 +421,7 @@
 		private void Filter_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			RecalculateValues();
+			RedrawChart();
 		}
 
 		#endregion
