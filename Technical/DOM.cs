@@ -108,7 +108,7 @@ public class DOM : Indicator
 	private decimal _maxPrice;
 
 	private VolumeInfo _maxVolume = new();
-	private SortedList<decimal, MarketDataArg> _mDepth = new();
+	private SortedDictionary<decimal, MarketDataArg> _mDepth = new();
 	private decimal _minAsk;
 	private decimal _minPrice;
 
@@ -314,7 +314,7 @@ public class DOM : Indicator
 			{
 				var depths = MarketDepthInfo.GetMarketDepthSnapshot();
 
-				var mDepth = new SortedList<decimal, MarketDataArg>();
+				var mDepth = new SortedDictionary<decimal, MarketDataArg>();
 
 				foreach (var depth in depths)
 				{
@@ -668,7 +668,7 @@ public class DOM : Indicator
 		lock (_locker)
 		{
 			var isCumulative = VisualMode is not Mode.Common;
-			_mDepth.Remove(depth.Price);
+			
 			_filteredColors.Remove(depth.Price);
 
 			if (isCumulative)
@@ -681,7 +681,7 @@ public class DOM : Indicator
 
 			if (depth.Volume != 0)
 			{
-				_mDepth.Add(depth.Price, depth);
+				_mDepth[depth.Price] = depth;
 
 				foreach (var filterColor in _sortedFilters)
 				{
@@ -692,8 +692,10 @@ public class DOM : Indicator
 					break;
 				}
 			}
+			else
+				_mDepth.Remove(depth.Price);
 
-			if (_mDepth.Count == 0)
+            if (_mDepth.Count == 0)
 			{
 				if (isCumulative)
 				{

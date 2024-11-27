@@ -179,7 +179,7 @@ public class MboGridController
 	{
 		lock (_updateLock)
 		{
-			if (_grid.Count == 0)
+			if (_grid.IsEmpty)
 				return false;
 
 			UpdateList(orders);
@@ -210,7 +210,7 @@ public class MboGridController
 			if (trade == null)
 				return;
 
-			if (_grid.Count == 0)
+			if (_grid.IsEmpty)
 				return;
 
 			if (_grid.TryGetValue(trade.Price, out var value))
@@ -349,7 +349,7 @@ public class MboGridController
 
 		lock (_updateLock)
 		{
-			if (_priceVolume.Count == 0 && _grid.Count == 0)
+			if (_priceVolume.Count == 0 && _grid.IsEmpty)
 			{
 				type = DataType.Lvl2;
 
@@ -381,7 +381,7 @@ public class MboGridController
 	{
 		lock (_level2UpdateLock)
 		{
-			if (_level2Data.Count == 0)
+			if (_level2Data.IsEmpty)
 				return false;
 
 			if ((depth.IsAsk || depth.IsBid) &&
