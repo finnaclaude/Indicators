@@ -122,8 +122,6 @@ public class ClusterSearch : Indicator
 
 	private readonly Queue<PriceVolumeInfo> _priceVolumeCache = new(1024);
 
-	private readonly Dictionary<int, IEnumerable<PriceVolumeInfo>> _priceVolumeInfoCache = new();
-
 	private readonly PriceSelectionDataSeries _renderDataSeries = new("RenderDataSeries", "Price");
 	private readonly List<PriceVolumeInfo> _sumInfo = new();
 	private bool _autoFilter;
@@ -293,7 +291,6 @@ public class ClusterSearch : Indicator
 		if (_lastBar != bar)
 		{
 			_alertPrices.Clear();
-			_priceVolumeInfoCache.Remove(bar - BarsRange);
 		}
 
 		var maxBody = Math.Max(candle.Open, candle.Close);
@@ -314,10 +311,6 @@ public class ClusterSearch : Indicator
 			{
 				var lCandle = GetCandle(i);
 
-				var candleLevels = i != CurrentBar - 1
-					? _priceVolumeInfoCache.GetOrAdd(i, _ => lCandle.GetAllPriceLevels())
-					: lCandle.GetAllPriceLevels(_cacheItem);
-
 				if (lCandle.High > candlesHigh)
 					candlesHigh = lCandle.High;
 
@@ -326,7 +319,7 @@ public class ClusterSearch : Indicator
 
 				for (var price = candlesLow; price <= candlesHigh; price += _tickSize)
 				{
-					var level = candleLevels.FirstOrDefault(t => t.Price == price) ?? new PriceVolumeInfo(){Price = price};
+					var level = lCandle.GetPriceVolumeInfo(price, _cacheItem);
 
 					if (!_levels.TryGetValue(price, out var currentLevel))
 					{
@@ -347,12 +340,15 @@ public class ClusterSearch : Indicator
 						_levels.Add(price, currentLevel);
 					}
 
-					currentLevel.Ask += level.Ask;
-					currentLevel.Between += level.Between;
-					currentLevel.Bid += level.Bid;
-					currentLevel.Ticks += level.Ticks;
-					currentLevel.Time += level.Time;
-					currentLevel.Volume += level.Volume;
+					if (level != null)
+					{
+						currentLevel.Ask += level.Ask;
+						currentLevel.Between += level.Between;
+						currentLevel.Bid += level.Bid;
+						currentLevel.Ticks += level.Ticks;
+						currentLevel.Time += level.Time;
+						currentLevel.Volume += level.Volume;
+                    }
                 }
 			}
 
@@ -645,7 +641,6 @@ public class ClusterSearch : Indicator
 
 	protected override void OnRecalculate()
 	{
-		_priceVolumeInfoCache.Clear();
         _isFinishRecalculate = false;
 
         base.OnRecalculate();
