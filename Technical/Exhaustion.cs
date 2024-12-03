@@ -12,7 +12,7 @@ using Utils.Common.Collections;
 
 using FilterColor2 = ATAS.Indicators.FilterColor;
 
-[Category("Volume & OrderFlow")]
+[Category(IndicatorCategories.VolumeOrderFlow)]
 [DisplayName("Exhaustion")]
 public class Exhaustion : Indicator
 {
