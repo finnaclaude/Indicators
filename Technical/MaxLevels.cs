@@ -15,7 +15,7 @@ namespace ATAS.Indicators.Technical
     using OFT.Rendering.Context;
     using OFT.Rendering.Tools;
     [DisplayName("Maximum Levels")]
-	[Category(IndicatorCategories.ClustersProfilesLevels)]
+	[Category("Volume & OrderFlow")]
     [Display(ResourceType = typeof(Strings), Description = nameof(Strings.MaxLevelsIndDescription))]
     [HelpLink("https://help.atas.net/en/support/solutions/articles/72000602426")]
     public class MaxLevels : Indicator
