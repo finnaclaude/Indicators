@@ -22,7 +22,7 @@ using Utils.Common.Logging;
 
 using Color = System.Drawing.Color;
 
-[Category(IndicatorCategories.Other)]
+[Category(IndicatorCategories.OrderBook)]
 [DisplayName("Depth Of Market")]
 [Display(ResourceType = typeof(Strings), Description = nameof(Strings.DOMDescription))]
 [HelpLink("https://help.atas.net/en/support/solutions/articles/72000602367")]

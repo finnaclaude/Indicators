@@ -18,7 +18,7 @@
     using Color = System.Drawing.Color;
 
     [DisplayName("External Chart")]
-	[Category(IndicatorCategories.Other)]
+	
     [Display(ResourceType = typeof(Strings), Description = nameof(Strings.ExternalChartsDescription))]
     [HelpLink("https://help.atas.net/en/support/solutions/articles/72000602383")]
 	public class ExternalCharts : Indicator

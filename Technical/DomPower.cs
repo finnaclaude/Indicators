@@ -8,7 +8,8 @@ using System.Linq;
 using OFT.Attributes;
 using OFT.Localization;
 
-[DisplayName("Dom Power")]
+[Category(IndicatorCategories.OrderBook)]
+[DisplayName("DOM Power")]
 [Display(ResourceType = typeof(Strings), Description = nameof(Strings.DomPowerDescription))]
 [HelpLink("https://help.atas.net/en/support/solutions/articles/72000602374")]
 public class DomPower : Indicator
