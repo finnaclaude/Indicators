@@ -147,7 +147,7 @@
 
 			if (onLine && !_onLine)
 			{
-				AddAlert(AlertFile, InstrumentInfo.Instrument, $"Triple EMA approximation alert: {this[bar]:0.#####}", BackgroundColor, FontColor);
+				AddAlert(AlertFile, InstrumentInfo.Instrument, $"T3 approximation alert: {this[bar]:0.#####}", BackgroundColor, FontColor);
 				_lastAlert = bar;
 			}
 
