@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using System.Linq;
 
 using ATAS.Indicators.Drawing;
 
@@ -602,7 +603,12 @@ public class InitialBalance : Indicator
 					Width = _borderWidth
 				};
 				var brush = new SolidBrush(ConvertColor(_fillColor));
+
 				_rectangle = new DrawingRectangle(bar, decimal.Zero, bar, decimal.Zero, pen, brush);
+
+				if (Rectangles.LastOrDefault()?.FirstBar == bar)
+					Rectangles.RemoveAt(Rectangles.Count - 1);
+
 				Rectangles.Add(_rectangle);
 			}
 		}
